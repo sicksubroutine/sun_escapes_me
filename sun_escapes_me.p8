@@ -56,7 +56,7 @@ function startgame()
 	flame_spr=3
 	
 	friction=0.65
-	gravity=0.3
+	gravity=0.35
 	gravity2=0
 	score=0
 	
@@ -108,8 +108,6 @@ function starfield()
 			local scol=5
 			
 			if mystar.spd<.21 then
-				-- damage zone planet
-			--	spr(44,mystar.x,mystar.y)
 				scol=0			
 			elseif mystar.spd<.85 then
 					scol=1
@@ -150,20 +148,20 @@ function explodes(expx,expy)
 		local myp={}
 		myp.x=expx+4
 		myp.y=expy+4
-		myp.sx=(rnd()-0.5)*7--partspd
-		myp.sy=(rnd()-0.5)*7--partspd
+		myp.sx=(rnd()-0.5)*7
+		myp.sy=(rnd()-0.5)*7
 		myp.age=rnd(2)
 		myp.maxage=7+rnd(7)
 		myp.size=0.75+rnd(3)
 		add(parts,myp)
 	end
 	
-	for i=1,5 do
+	for i=1,3 do
 		local myp={}
 		myp.x=expx+4
 		myp.y=expy+4
-		myp.sx=(rnd()-0.5)*17--partspd
-		myp.sy=(rnd()-0.5)*15--partspd
+		myp.sx=(rnd()-0.5)*17
+		myp.sy=(rnd()-0.5)*15
 		myp.age=3
 		myp.maxage=10+rnd(7)
 		myp.size=1
@@ -198,20 +196,7 @@ function sun_explodes(expx,expy)
 		myp.size=0.75+rnd(3)
 		add(parts,myp)
 	end
-	
---[[	for i=1,5 do
-		local myp={}
-		myp.x=expx+4
-		myp.y=expy+4
-		myp.sx=(rnd()-0.5)*17--partspd
-		myp.sy=(rnd()-0.5)*15--partspd
-		myp.age=3
-		myp.maxage=10+rnd(7)
-		myp.size=1
-		myp.blue=false
-		add(parts,myp)
-	end
-]]--
+
 end
 
 function page_sun(page)
@@ -260,12 +245,12 @@ function col(a,b)
 
  local a_left=a.x
  local a_top=a.y
- local a_right=a.x+7+a.colw-3
- local a_bottom=a.y+7+a.colh
+ local a_right=a.x+a.colw
+ local a_bottom=a.y+a.colh
  
  local b_left=b.x
  local b_top=b.y
- local b_right=b.x+b.colw-3
+ local b_right=b.x+b.colw
  local b_bottom=b.y+b.colh
  
  if a_top >b_bottom then return false end
