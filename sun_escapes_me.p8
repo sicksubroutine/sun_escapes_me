@@ -14,7 +14,7 @@ function _init()
 end
 
 function _update()
-	t+=1
+	
 	if mode=="start" then
 		update_start()
 	elseif mode=="game" then
@@ -44,7 +44,7 @@ function startgame()
 	
 	p=makespr()
 	
-	p.x=30
+	p.x=50
 	p.y=25
 	p.sx=0
 	p.sy=0
@@ -83,6 +83,8 @@ function startgame()
 	btimer=10
 	muzzle=0
 	hiscore=dget(0)
+	invul=30
+	t=0
 	
 end
 
@@ -104,16 +106,16 @@ end
 
 function starfield()
 	for i=1,#stars do
-			local mystar=stars[i]
-			local scol=5
+		local mystar=stars[i]
+		local scol=5
 			
-			if mystar.spd<.21 then
-				scol=0			
-			elseif mystar.spd<.85 then
-					scol=1
-			elseif mystar.spd<1.25 then
-				scol=7
-			end
+		if mystar.spd<.21 then
+			scol=0			
+		elseif mystar.spd<.85 then
+				scol=1
+		elseif mystar.spd<1.25 then
+			scol=7
+		end
 			
 		pset(mystar.x,mystar.y,scol)
 	end
@@ -172,7 +174,6 @@ function explodes(expx,expy)
 end
 
 function sun_explodes(expx,expy)
-
 	local myp={}
 	myp.x=expx+4
 	myp.y=expy+4
@@ -270,15 +271,15 @@ function newrock()
 	newrock.colh=8
 	newrock.sprw=1
 	newrock.sprh=1
+	newrock.spr=2
 	newrock.col=(rnd({"red","blue","og","green"}))
-	 
 	add(rocks,newrock)
 end
 
 function newneb()
 	local newneb=makespr()
-	newneb.x=rnd(25)+75
-	newneb.y=flr(rnd(56))
+	newneb.x=64+rnd(10)
+	newneb.y=8+flr(rnd(56))
 	newneb.spd=1
 	newneb.spr=18
 	newneb.colh=8
@@ -309,7 +310,28 @@ function drwmyspr(myspr)
 	local sprx=myspr.x
 	local spry=myspr.y
 	
-	spr(myspr.spr,sprx,spry,myspr.sprw,myspr.sprh)
+	if myspr.col=="red" then
+		pal(13,2)
+		pal(6,8)
+		spr(myspr.spr,myspr.x,myspr.y)
+		pal()
+	elseif myspr.col=="blue" then
+		pal(13,1)
+		pal(6,12)
+		spr(myspr.spr,myspr.x,myspr.y)
+		pal()
+	elseif myspr.col=="og" then
+		pal()
+		spr(myspr.spr,myspr.x,myspr.y)
+		pal()
+	elseif myspr.col=="green" then
+		pal(13,3)
+		pal(6,11)
+		spr(myspr.spr,myspr.x,myspr.y)
+		pal()
+	else
+		spr(myspr.spr,sprx,spry,myspr.sprw,myspr.sprh,myspr.rev)
+	end
 end
 
 function makespr()
@@ -335,8 +357,8 @@ function dis_spr(mynum,loc)
 	local digit2=0
 	local digit3=0
 	--score,topleft
-	if loc==1 then locx=20 locy=0 end
-	if loc==2 then locx=29 locy=5 end
+	if loc==1 then locx=25 locy=0 end
+	if loc==2 then locx=49 locy=0 end
 	if mynum<=9 then
 		digit=sub(mynum,1,1)
 		spr(start+digit,locx,locy)
@@ -361,24 +383,24 @@ end
 function update_game()	
 	animstars()
 	--reset values
-	t=0
+	t+=1
 	if wait2==0 then
 	 gravity2=0
 	end
 	p.sy=0
 	p.sx=0
 	p.spr=32
-	if knockback==true and t%100==0 then
+	if knockback==true and t%25==0 then
 		knockback=false		
 	end
 	if btn(⬆️) then
-		p.sy-=0.5
+		p.sy-=0.8
 		p.spr=16
 		p.sx-=0.03
 		sfx(1)
 	end 
 	if btn(⬇️) then
-		p.sy+=0.5
+		p.sy+=0.8
 		p.spr=48
 		p.sx-=0.03
 		sfx(1)
@@ -397,14 +419,15 @@ function update_game()
 	if btimer<0 then
 		if btn(❎) and p.ded==false then
 			local newbul=makespr()
-			newbul.x=p.x+5
-			newbul.y=p.y+1
+			newbul.x=p.x+6
+			newbul.y=p.y
 			newbul.spr=35
-			newbul.colw=1
-			newbul.colh=5
+			newbul.colw=5
+			newbul.colh=8
+			newbul.rev=false
 			add(buls,newbul)
 			btimer=10
-			muzzle+=5
+			muzzle=10
 			sfx(6)
 		end
 	end	
@@ -431,9 +454,15 @@ function update_game()
 	p.x=p.x+p.sx
 	p.y=p.y+p.sy
 	
+	if muzzle>0 then
+		muzzle-=2
+	end
+	
 	if p.x>56 then
 		p.x=56
 	end	
+	
+	
 	flame_spr=flame_spr+1
 	if flame_spr>5 then
 		flame_spr=3
@@ -459,19 +488,19 @@ function update_game()
 		myneb.spr+=0.25
 		if myneb.spr==20 then
 			myneb.spr=18
-		end	
-			
+		end			
 	end	
-	
-	for x=1,1 do
-		if #nebula<rnd(5) then
+
+	--spawn code
+	for x=1,1+t/250 do
+		if #nebula<(rnd(t/250)) then
 			newneb()
 		end
 	end
 		
-	for x=1,1 do
-		x+=rnd({1,2})+t/100
-		if #rocks<=x then
+	for x=1,1+t/250 do
+		
+		if #rocks<(rnd(t/250)) then
 			newrock()
 		end
 	end
@@ -480,7 +509,11 @@ function update_game()
 		mybul.x+=3
 			if mybul.bounce==true then
 				mybul.x-=5
+				mybul.rev=true
 			end
+			if mybul.x>64 then
+				del(buls,mybul)
+			end	
 	end
 	--bullet collision code
 	for mybul in all(buls) do
@@ -503,39 +536,51 @@ function update_game()
 			end
 		end	
 	end
-	
-	for mybul in all(buls) do
-			if col(mybul,p) then
-				explodes(p.x,p.y)
-				del(buls,mybul)
-				p.x-=5
-				sfx(0)
-			end	
-	end
-
-	for myrock in all(rocks) do		
-		if col(myrock,p) then
-			sfx(0)
-			shake=5
-			p.x-=8
-			score+=1
-			knockback=true
-			explodes(myrock.x,myrock.y)
-			del(rocks,myrock)
+	--player collision
+	invul-=1
+	wait2-=1
+	if invul<=0 then
+		for mybul in all(buls) do
+				if col(mybul,p) then
+					explodes(p.x,p.y)
+					del(buls,mybul)
+					p.x-=5
+					sfx(0)
+					shake=5
+					invul=30
+				end	
 		end
 	end
-		wait2-=1
+	
+	if invul<=0 then
+		for myrock in all(rocks) do		
+			if col(myrock,p) then
+				sfx(0)
+				shake=5
+				p.x-=8
+				score+=1
+				--knockback=true
+				explodes(myrock.x,myrock.y)
+				del(rocks,myrock)
+				invul=20
+			end
+		end
+	end
+	
+	if invul<=0 then	
 		for myneb in all(nebula) do
 			if col(myneb,p) then
 				gravity2=2.25
 				wait2=8
 				shake=3
-				knockback=true
+				--knockback=true
 				sfx(5)
 				del(nebula,myneb)
+				invul=15
 			end
 		end
-		if p.x>50 then
+	end	
+		if p.x>54 then
 			knockback=true
 		end	
 		
@@ -583,13 +628,18 @@ function draw_game()
 	end
 	
 	--draw player ship
+	
+	if invul<=0 then
 		drwmyspr(p)
-	spr(flame_spr,p.x-5,p.y)
+		spr(flame_spr,p.x-5,p.y)
+	else	
+		if sin(t/5)<0 then
+				drwmyspr(p)
+				spr(flame_spr,p.x-5,p.y)
+			end
+	end
 	
-	--print(p.x,0,25)
-	--print("dead? ",40,0,8)
-	--print(p.ded)
-	
+
 	for par in all (parts) do
 		local pc=7
 		pc=page_red(par.age)
@@ -614,42 +664,23 @@ function draw_game()
 
 	for myneb in all(nebula) do
 		drwmyspr(myneb)
-	--	spr(myneb.spr,myneb.x,myneb.y)
 	end	
 
 	for myrocks in all(rocks) do
-	
-		if myrocks.col=="red" or myrocks.col==nil then
-			pal(13,2)
-			pal(6,8)
-			spr(2,myrocks.x,myrocks.y)
-			pal()
-		elseif myrocks.col=="blue" then
-			pal(13,1)
-			pal(6,12)
-			spr(2,myrocks.x,myrocks.y)
-			pal()
-		elseif myrocks.col=="og" then
-			pal()
-			spr(2,myrocks.x,myrocks.y)
-			pal()
-		elseif myrocks.col=="green" then
-			pal(13,3)
-			pal(6,11)
-			spr(2,myrocks.x,myrocks.y)
-			pal()
-		end	 	 	
+		drwmyspr(myrocks)	 	 	
 	end
-	spr(11,0,0,3,1)
+	
+	if muzzle>0 then
+		circfill(p.x+8,p.y+4,muzzle,10)
+	end	
+	
+	spr(11,5,0,3,1)
 	pal(7,8)
 	pal(6,2)
 	dis_spr(score,1)
 	dis_spr(hiscore,2)
 	pal()
-	spr(27,0,5)
-	spr(11,9,5,3,1)
-	
-	
+	spr(27,39,0)
 end
 
 function draw_start()
@@ -707,14 +738,14 @@ __gfx__
 3366600000d00000cceeecc0eecccee0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000e000000ceeeec00ecccce0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000cccccc00eeeeee0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-555530000000000000000000a7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-03666330000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-05530000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+555530000000000000000000a7990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+036663300000000000000000a7799000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+055300000000000000000000a7990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 6636c663000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 6636c663000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-055300000000000000000000a7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-03666330000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-55553000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+055300000000000000000000a7990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+036663300000000000000000a7799000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+555530000000000000000000a7990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000676000000700000007000000760000000670000067700000700000006770000067600000676000000000000000000000000000000000000000000000
 00000000707000007700000060700000670000006770000077600000776000007070000067600000767000000000000000000000000000000000000000000000
 33666000707000000700000007000000070000007670000000700000707000000070000070700000007000000000000000000000000000000000000000000000
