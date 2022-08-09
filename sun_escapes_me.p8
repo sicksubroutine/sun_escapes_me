@@ -103,7 +103,7 @@ function startgame()
 	muzzle=0
 	hiscore=dget(0)
 	invul=30
-	
+	floats={}
 	
 end
 
@@ -297,7 +297,7 @@ end
 function newneb()
 	local newneb=makespr()
 	newneb.x=64+rnd(10)
-	newneb.y=8+flr(rnd(48))
+	newneb.y=flr(rnd(56))
 	newneb.spd=1
 	newneb.spr=18
 	newneb.colh=8
@@ -416,6 +416,19 @@ function tosmall(str)
   end
   return smallstr
 end
+
+function popfloat(fltxt,flx,fly)
+	local fl={}
+	fl.x=flx
+	fl.y=fly
+	fl.txt=fltxt
+	fl.age=0
+	add(floats,fl)
+end
+
+function cprint(txt,x,y,c)
+	print(tosmall(txt),x-#txt*2,y,c)
+end
 -->8
 --update functions
 function update_game()	
@@ -500,10 +513,7 @@ function update_game()
 		muzzle-=2
 	end
 	
-	if p.x>56 then
-		p.x=56
-	end	
-	
+
 	
 	flame_spr=flame_spr+1
 	if flame_spr>5 then
@@ -579,7 +589,8 @@ function update_game()
 					del(rocks,myrock)
 					explodes(myrock.x,myrock.y)
 					sfx(0)
-					score+=1
+					score+=2
+					popfloat("+2",myrock.x,myrock.y)
 				end	
 			end	
 		end	
@@ -614,7 +625,7 @@ function update_game()
 	end
 	
 	if invul<=0 then
-		for myrock in all(rocks) do		
+		for myrock in all(rocks) do
 			if col(myrock,p) then
 				sfx(0)
 				shake=5
@@ -631,10 +642,9 @@ function update_game()
 	if invul<=0 then	
 		for myneb in all(nebula) do
 			if col(myneb,p) then
-				gravity2=2.25
+				gravity2=2.35
 				wait2=8
 				shake=3
-				--knockback=true
 				sfx(5)
 				del(nebula,myneb)
 				invul=15
@@ -647,14 +657,17 @@ function update_game()
 			knockback=true
 		end	
 		
-		if p.y>56 then
-			p.y=56
+		if p.y>60 then
+			p.y=60
 		end
 		
 		if p.y<5 then
 			p.y=5
 		end		
 		
+		if p.x>60 then
+			p.x=60
+		end	
 	
 			animate(sun)
 	
@@ -794,6 +807,20 @@ function draw_game()
 	dis_spr(hiscore,2)
 	pal()
 	spr(27,39,0)
+	
+	for myfl in all(floats) do
+		local mycol=7
+		if t%4<2 then
+			mycol=8
+		end 	
+		cprint(myfl.txt,myfl.x,myfl.y,mycol)
+		myfl.x-=0.5
+		myfl.age+=1
+		if myfl.age>40 then
+			del(floats,myfl)
+		end	
+	end
+	
 end
 
 function draw_start()
