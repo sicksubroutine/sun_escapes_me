@@ -1151,7 +1151,7 @@ end
 function draw_over()
 	cls()
 	
-	cprint("the sun ate you!",32,15,8)
+	cprint("the sun got you!",32,15,8)
 	cprint("press x to",32,22,blink())
 	cprint("try again",32,27,blink())
 
