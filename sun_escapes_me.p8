@@ -107,7 +107,7 @@ function startgame()
 	friction=0.65
 	gravity=1.5
 	gravity2=0
-	score=0
+	score=150
 	
 	explode={}
 	
@@ -1219,7 +1219,7 @@ end
 function draw_over()
 	cls()
 	cprint("the sun got you!",32,15,8)
-	cprint("press 🅾️ to",32,22,blink())
+	cprint("press ❎ to",32,22,blink())
 	cprint("try again",32,27,blink())
 	cprint("your high",25,33,8)
 	cprint("score is:",25,39,8)
@@ -1310,9 +1310,9 @@ elseif win_lvl==4 then
 	end
 elseif win_lvl==5 then
 	cls()
-	cprint("music by Gruber!",32,15,blink())
+	cprint("music by gruber!",32,15,blink())
 	cprint("from pico8 tunes",32,23,7)
-	cprint("vol 2 on itchio!",32,31,8)
+	cprint("vol 2 the bbs!",32,31,8)
 	if beg+5*30<t then
 		win_lvl=6
 	end
