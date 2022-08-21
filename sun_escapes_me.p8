@@ -107,7 +107,7 @@ function startgame()
 	friction=0.65
 	gravity=1.5
 	gravity2=0
-	score=150
+	score=0
 	
 	explode={}
 	
