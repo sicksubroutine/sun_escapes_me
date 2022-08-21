@@ -35,4 +35,4 @@ Made for the LOWREZJAM 2022 game jam! This is actually my (Chaz) first game jam 
 
 ## Credits
 
-[Chaz](https://twitter.com/thechaz) did most of the programming and most of the art. [Cat](https://twitter.com/LNJCat) contributed playtesting and various art contributions including the Sun. [Gruber](https://twitter.com/gruber_music) provided music via the [Pico-8 Tunes Vol 2!](https://www.lexaloffle.com/bbs/?tid=33675) Huge shoutout goes to [LazyDevs](https://twitter.com/LazyDevsAcademy) who helped to power my game dev journey the last three months. 
+[Chaz](https://twitter.com/thechaz) did most of the programming and most of the art. [Cat](https://twitter.com/LNJCat) contributed playtesting and various art contributions including the Sun. [Gruber](https://twitter.com/gruber_music) provided music via the [Pico-8 Tunes Vol 2!](https://www.lexaloffle.com/bbs/?tid=33675) Huge shoutout goes to [LazyDevs](https://twitter.com/LazyDevsAcademy) who helped to power my game dev journey the last two months. 
