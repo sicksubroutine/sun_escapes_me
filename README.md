@@ -24,6 +24,6 @@ You can use energy weapons to blow up asteroids before they hit you but if your 
 
 Made for the LOWREZJAM 2022 game jam! This is actually my (Chaz) first game jam ever! LOWREZJAM was picked because of the 64x64px requirement. It was very much in line with my current experiences with pixel art and the Pico 8 fantasy console. Actually got it submitted in time and everything too!
 
-### Credits
+## Credits
 
 [Chaz](https://twitter.com/thechaz) did most of the programming and most of the art. [Cat](https://twitter.com/LNJCat) contributed playtesting and various art contributions including the Sun. [Gruber](https://twitter.com/gruber_music) provided music via the [Pico-8 Tunes Vol 2!](https://www.lexaloffle.com/bbs/?tid=33675) Huge shoutout goes to [LazyDevs](https://twitter.com/LazyDevsAcademy) who helped to power my game dev journey the last three months. 
