@@ -16,7 +16,6 @@ function _init()
 	shake=0
 	blinkt=1
 	cartdata("sun_escapes_me")
-	debug=""
 	
 	sun={}
 	
@@ -91,7 +90,7 @@ function _draw()
 	elseif mode=="win" then
 		draw_win()
 	end
-	print(debug,40,50,8)
+	
 	camera()
 end
 
