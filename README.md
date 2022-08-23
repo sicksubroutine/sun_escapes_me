@@ -1,6 +1,6 @@
 # Sun Escapes Me
 
-![sun_escapes_me_13](https://user-images.githubusercontent.com/14047518/185776774-5c2dd354-5848-40d9-9563-a69ef1293c94.png)
+![Sun Escapes Me logo](https://user-images.githubusercontent.com/14047518/186278385-d4ff2d10-3365-49da-a6dd-4d3581d7603c.png)
 
 
 "Sun Escapes Me" is an entry into my first game jam -- LOWREZJAM 2022. This is a game jam in which all entries must have a game resolution of at most 64x64px. This is a rather stark constraint for most who are used to 1080p resolutions or higher. This is to make my final goal a little more mangable to aim for. Sun Escapes Me was made on the Pico 8 fantasy console.
