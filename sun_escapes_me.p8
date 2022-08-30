@@ -11,7 +11,6 @@ function _init()
 	ft={}
 	initfont()
 	poke(0x5f2c,3)
-	t=0
 	startscreen()
 	phase="phase1"
 	shake=0
@@ -56,52 +55,16 @@ function _init()
 		newstar.spd=rnd(1.75)+0.20
 		add(stars,newstar)
 	end
-	
-end
-
-function _update()
-	blinkt+=1
-	t+=1
-	if mode=="start" then
-		update_start()
-	elseif mode=="cut1" then
-		update_cut1()
-	elseif mode=="game" then
-		update_game()
-	elseif mode=="over" then
-		update_over()
-	elseif mode=="win" then
-		update_win()
-	end
-end
-
-function _draw()
-
-	doshake()
-
-	if mode=="start" then
-		draw_start()
-	elseif mode=="cut1" then
-		draw_cut1()	
-	elseif mode=="game" then
-		draw_game()	
-	elseif mode=="over" then
-		draw_over()
-	elseif mode=="win" then
-		draw_win()
-	end
-	
-	camera()
+	t=0
 end
 
 function startgame()
-	mode="game"
+	t=0
 	music(-1,100)
 	music(0)
 	p.x=50
 	p.y=25
 	p.ded=false
-	t=0
 	beg=0
 	friction=0.65
 	gravity=1.5
@@ -131,10 +94,13 @@ function startgame()
 	lvl=0
 	subphs="not boss"
 	sun.hp=145
+	_update = update_game
+	_draw = draw_game
 end
 
 function startscreen()
-	mode="start"	
+	_update = update_start
+	_draw = draw_start
 end	
 
 -->8
@@ -492,13 +458,13 @@ function fire(ang,spd)
 end
 
 function ext(mynum)
-	if subphs!="boss" then
+	if subphs!="boss" and subphs!="dead" then
 		local digit=sub(mynum,1,1)
 		local digit2=sub(mynum,2,2)
 		local digit3=sub(mynum,3,3)
 		local digit4=sub(mynum,4,4)
 		print(digit..digit2..digit3..digit4, 15,58,8)
-	elseif subphs=="boss" then
+	elseif subphs=="boss" or subphs=="dead" then
 		local digit=sub(mynum,2,2)
 		local digit2=sub(mynum,3,3)
 		local digit3=sub(mynum,4,4)
@@ -511,11 +477,13 @@ end
 -->8
 --update functions
 function update_game()	
+	t+=1
+	blinkt+=1
 	animstars()
-	
+	doshake()
 	if subphs!="boss" then	
 		gravity=gravity+0.02/150
-	elseif subphs=="boss" then
+	elseif subphs=="boss" or subphs=="dead" then
 		gravity=gravity-0.01/150
 	end
 	
@@ -601,7 +569,8 @@ function update_game()
 	
 	if p.ded and wait==0 then
 		sun.side="left"
-		mode="over"
+		_update=update_over
+		_draw=draw_over
 	end	
 	
 	p.sx-=(gravity/10)+gravity2
@@ -875,9 +844,11 @@ function update_game()
 			music(15)
 		end	
 	elseif lvl==7 then
+		t=0
 		beg=t
 		win_lvl=1
-		mode="win"
+		_update=update_win
+		_draw=draw_win
 	end
 
 	if sun.pain>0 then
@@ -926,17 +897,17 @@ end
 
 function update_start()
 	animstars()
-	
+	blinkt+=1
+	t+=1
 	if btn(🅾️) then
 		t=0	
-		mode="cut1"
+		_update=update_cut1
+		_draw=draw_cut1
 	end	
-	
 end
 
 function update_over()
-	mode="over"
-	
+	blinkt+=1
 	if score>hiscore then
 		hiscore=score
 	end
@@ -958,6 +929,8 @@ function srtbtn()
 end
 
 function update_cut1()
+	t+=1
+	blinkt+=1
 	animstars()
 	if t>0 and t<1.1 then
 		scnbegin=t
@@ -1063,6 +1036,8 @@ function update_cut1()
 end
 
 function update_win()
+	t+=1
+	blinkt+=1
 	if win_lvl==1 then
 		if score>hiscore then
 			hiscore=score
@@ -1083,6 +1058,7 @@ end
 
 function draw_game()
 	cls()
+	doshake()
 	starfield()
 	
 	--drawing da sun
@@ -1224,6 +1200,7 @@ end
 
 function draw_start()
 	cls()
+	
 	starfield()
 	print(tosmall("sun escapes me"),5,15,8)
 	cprint("🅾️ to start",32,30,blink())
@@ -1242,6 +1219,7 @@ end
 
 function draw_cut1()
 	cls()
+	doshake()
 	starfield()
 	if phase=="phase1" then
 		cprint("the sun",32,20,8)
@@ -1281,7 +1259,7 @@ function draw_cut1()
 		end	
 	
 	end
-
+	camera()
 end
 
 function draw_win()
@@ -1307,7 +1285,7 @@ elseif win_lvl==2 then
 elseif win_lvl==3 then
 	cls()
 	cprint("made by chaz",32,15,8)
-	cprint("and cat!",32,23,7)
+	cprint("and cat!",32,23,blink())
 	if beg+5*30<t then
 		beg=t	
 		win_lvl=4
@@ -1326,7 +1304,7 @@ elseif win_lvl==5 then
 	cls()
 	cprint("music by gruber!",32,15,blink())
 	cprint("from pico8 tunes",32,23,7)
-	cprint("vol 2 the bbs!",32,31,8)
+	cprint("vol 2!",32,31,8)
 	if beg+5*30<t then
 		win_lvl=6
 	end
