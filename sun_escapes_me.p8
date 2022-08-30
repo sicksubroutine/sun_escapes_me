@@ -6,6 +6,7 @@ __lua__
 --without lazydevs, this game probably wouldn't exist!
 --music by @guber_music, from pico8 tunes vol2.
 function _init()
+	version="1.0.3"
 	cls()
 	ft={}
 	initfont()
@@ -32,7 +33,6 @@ function _init()
 	sun.anispd=0.25
 	sun.pain=0
 	sun.painfrm=70
-	sun.hp=145
 	sun.side="left"
 	
 	p=makespr()
@@ -397,6 +397,7 @@ function dis_spr(mynum,loc)
 	--score,topleft
 	if loc==1 then locx=19 locy=0 end
 	if loc==2 then locx=47 locy=0 end
+	if loc==3 then locx=32 locy=60 end
 	if mynum<=9 then
 		digit=sub(mynum,1,1)
 		spr(start+digit,locx,locy)
@@ -665,6 +666,11 @@ function update_game()
 				sfx(45)
 				shake=6
 				popfloat("+15",54,14+rnd(24))
+			elseif mybul.x>60 and subphs=="dead" then
+				explodes(mybul.x,mybul.y)
+				del(buls,mybul)
+				sfx(0)
+				shake=3
 			end
 	end
 	--bullet collision code
@@ -839,12 +845,13 @@ function update_game()
 			fire(0.23-rnd(0.09),1)
 			sfx(9)
 		end	
-		
+		--boss ded
 		if sun.hp<0 then
 			beg=t
 			invul=50
 			ebuls={}
 			lvl=6
+			subphs="dead"
 		end
 	elseif lvl==6 then
 		if lvl==6 and t%5==0 then
@@ -1056,6 +1063,13 @@ function update_cut1()
 end
 
 function update_win()
+	if win_lvl==1 then
+		if score>hiscore then
+			hiscore=score
+		end
+	dset(0,hiscore)	
+	end
+	
 	sun.side="left"
 	if btn(🅾️) then
 		sfx(3)
@@ -1211,8 +1225,9 @@ end
 function draw_start()
 	cls()
 	starfield()
-	print(tosmall("sun escapes me"),5,25,8)
-	cprint("🅾️ to start",32,48,blink())
+	print(tosmall("sun escapes me"),5,15,8)
+	cprint("🅾️ to start",32,30,blink())
+	cprint(version,32,58,1)
 end
 
 function draw_over()
