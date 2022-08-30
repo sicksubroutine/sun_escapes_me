@@ -2,8 +2,7 @@
 
 ![Sun Escapes Me logo](https://user-images.githubusercontent.com/14047518/186278385-d4ff2d10-3365-49da-a6dd-4d3581d7603c.png)
 
-
-"Sun Escapes Me" is an entry into my first game jam -- LOWREZJAM 2022. This is a game jam in which all entries must have a game resolution of at most 64x64px. This is a rather stark constraint for most who are used to 1080p resolutions or higher. This is to make my final goal a little more mangable to aim for. Sun Escapes Me was made on the Pico 8 fantasy console.
+"Sun Escapes Me" is an entry into my first game jam -- [LOWREZJAM 2022](https://itch.io/jam/lowrezjam-2022). This is a game jam in which all entries must have a game resolution of at most 64x64px. This is a rather stark constraint for most who are used to 1080p resolutions or higher. This is to make my final goal a little more mangable to aim for. Sun Escapes Me was made on the Pico 8 fantasy console.
 
 ## Controls
 
@@ -31,7 +30,7 @@ You can use energy weapons to blow up asteroids before they hit you but if your 
 
 ![sun_escapes_me_9](https://user-images.githubusercontent.com/14047518/185776815-5f5d63fb-4c82-4b9b-b5c9-3f2d4a09c960.gif)
 
-Made for the LOWREZJAM 2022 game jam! This is actually my (Chaz) first game jam ever! LOWREZJAM was picked because of the 64x64px requirement. It was very much in line with my current experiences with pixel art and the Pico 8 fantasy console. Actually got it submitted in time and everything too!
+Made for the LOWREZJAM 2022 game jam! This is actually my (Chaz) first game jam ever! LOWREZJAM was picked because of the 64x64px requirement. It was very much in line with my current experiences with pixel art and the Pico 8 fantasy console. Actually got it submitted in time and everything too! [We ended up getting #132 overall out of 430 submitted entries!](https://itch.io/jam/lowrezjam-2022/rate/1646677)
 
 ## Credits
 
