@@ -20,7 +20,11 @@ Press Z to start the game.
 
 ![sun_escapes_me_8](https://user-images.githubusercontent.com/14047518/185776806-72b8d84a-f9c2-4844-bed6-1d8eeefecdc1.gif)
 
-For some reason the SUN is really *PISSED*. You better be pushing your engines to the limit to escape! The gravity well of the SUN is slowly increasing over time. The gravity meter is seen along the bottom of the screen.
+For some reason the SUN is really *PISSED*. You better be pushing your engines to the limit to escape! The gravity well of the SUN is slowly increasing over time. 
+
+BE CAREFUL TO NOT LET ANY ASTROIDS FALL INTO THE SUN! IT WILL INCREASE GRAVITY!
+
+The gravity meter is seen along the bottom of the screen.
 
 Asteroids knock you back and nebulas seize up your engine for a brief time.
 
